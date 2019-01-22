@@ -11,7 +11,8 @@ export default class Movie extends Component {
 
   componentDidMount() {
     // change this line to grab the id passed on the URL
-    const id = 1;
+    console.log("CDM", this.props.match.params.id);
+    const id = this.props.match.params.id;
     this.fetchMovie(id);
   }
 
@@ -19,6 +20,7 @@ export default class Movie extends Component {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
       .then(response => {
+        console.log("respone ", response);
         this.setState(() => ({ movie: response.data }));
       })
       .catch(error => {
@@ -41,7 +43,7 @@ export default class Movie extends Component {
     if (!this.state.movie) {
       return <div>Loading movie information...</div>;
     }
-
+    console.log("render ", this.state.movie);
     const { title, director, metascore, stars } = this.state.movie;
     return (
       <div className="save-wrapper">
