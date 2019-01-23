@@ -13,7 +13,7 @@ export default class Movie extends Component {
 
   componentDidMount() {
     // change this line to grab the id passed on the URL
-    console.log("CDM", this.props.match.params.id);
+    // console.log("CDM", this.props.match.params.id);
     const id = this.props.match.params.id;
     this.fetchMovie(id);
   }
@@ -22,7 +22,7 @@ export default class Movie extends Component {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
       .then(response => {
-        console.log("respone ", response);
+        // console.log("respone ", response);
         this.setState(() => ({ movie: response.data }));
       })
       .catch(error => {
@@ -30,16 +30,17 @@ export default class Movie extends Component {
       });
   };
   // Uncomment this code when you're ready for the stretch problems
-  // componentWillReceiveProps(newProps){
-  //   if(this.props.match.params.id !== newProps.match.params.id){
-  //     this.fetchMovie(newProps.match.params.id);
-  //   }
-  // }
+  componentWillReceiveProps(newProps){
+    if(this.props.match.params.id !== newProps.match.params.id){
+      this.fetchMovie(newProps.match.params.id);
+    }
+  }
 
-  // saveMovie = () => {
-  //   const addToSavedList = this.props.addToSavedList;
-  //   addToSavedList(this.state.movie)
-  // }
+  saveMovie = () => {
+    console.log("saveMovie");
+    const addToSavedList = this.props.addToSavedList;
+    addToSavedList(this.state.movie)
+  }
 
   render() {
     if (!this.state.movie) {
@@ -48,7 +49,7 @@ export default class Movie extends Component {
     return (
       <div className="save-wrapper">
         <MovieCard movie={this.state.movie} />
-        <div className="save-button">Save</div>
+        <div className="save-button" onClick={() => this.saveMovie()}>Save</div>
       </div>
     );
   }
